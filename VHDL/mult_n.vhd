@@ -1,6 +1,6 @@
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+USE ieee.numeric_std.all;
 
 ENTITY mult_n IS
 	GENERIC(
@@ -14,8 +14,11 @@ ENTITY mult_n IS
 END ENTITY;
 
 ARCHITECTURE beh OF mult_n IS
-	SIGNAL mult_signed: SIGNED(N DOWNTO 0);
+	SIGNAL mult_signed: SIGNED((2*N)-1 DOWNTO 0);
 BEGIN
-	mult_signed <= SIGNED(in_a) + SIGNED(in_b);
-	mult_out <= STD_LOGIC_VECTOR(mult_signed);
+	multiplication: PROCESS(in_a, in_b)
+	BEGIN
+		mult_signed <= SIGNED(in_a) * SIGNED(in_b);
+	END PROCESS;
+	mult_out <= STD_LOGIC_VECTOR(mult_signed(2*N-1 DOWNTO N));
 END beh;
